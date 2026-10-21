@@ -1,4 +1,6 @@
 "use client";
+// NOTE: tests for this page live in frontend/src/app/circles/page.test.tsx
+// (create validation, discovery+cache merge, and error state).
 // Circles page.
 
 import { useCallback, useEffect, useState } from "react";

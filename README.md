@@ -101,7 +101,7 @@ contract id).
 
 The app runs on `:3000`. Install [Freighter](https://www.freighter.app/),
 switch it to Stellar testnet, and fund a testnet account via
-[the Laboratory](https://laboratory.stellar.org/#account-creator?network=test)
+[the Stellar Lab](https://lab.stellar.org/account/fund?network=testnet)
 before creating or joining a circle.
 
 ## The contract

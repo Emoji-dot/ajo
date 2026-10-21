@@ -41,7 +41,7 @@ export function Cta() {
               Launch the app
             </Link>
             <a
-              href="https://laboratory.stellar.org/#account-creator?network=test"
+              href="https://lab.stellar.org/account/fund?network=testnet"
               target="_blank"
               rel="noreferrer"
               className="rounded-full border border-accent-foreground/40 px-6 py-3 text-center text-sm font-medium text-accent-foreground hover:bg-accent-foreground/10"

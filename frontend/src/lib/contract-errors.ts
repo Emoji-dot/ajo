@@ -32,6 +32,7 @@ export const CONTRACT_ERROR_MESSAGES: Record<ContractErrorCode, string> = {
   [ContractErrorCode.InvalidParams]: "Invalid circle parameters.",
   [ContractErrorCode.NotAuthorized]: "You're not authorized to do that.",
   [ContractErrorCode.Overflow]: "The circle's pot overflowed.",
+  [ContractErrorCode.Overflow]: "The contract couldn't complete that — an amount overflowed its limit.",
 };
 
 const CONTRACT_ERROR_PATTERN = /Error\(Contract,\s*#(\d+)\)/;

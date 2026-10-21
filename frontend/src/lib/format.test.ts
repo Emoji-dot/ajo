@@ -158,16 +158,20 @@ describe("formatCycleLength", () => {
   });
 });
 
-describe("formatDeadline", () => {
-  it("reports a passed deadline", () => {
-    expect(formatDeadline(Date.now() / 1000 - 10)).toBe("deadline passed");
+describe("formatDeadline (#352)", () => {
+  it("reports a passed deadline using the supplied ledger time", () => {
+    expect(formatDeadline(1_000 - 10, 1_000)).toBe("deadline passed");
   });
 
   it("reports days remaining", () => {
-    expect(formatDeadline(Date.now() / 1000 + 2 * 86_400 + 3_600)).toBe("2d 1h left");
+    expect(formatDeadline(1_000 + 2 * 86_400 + 3_600, 1_000)).toBe("2d 1h left");
   });
 
   it("reports minutes remaining when under an hour", () => {
-    expect(formatDeadline(Date.now() / 1000 + 5 * 60)).toBe("5m left");
+    expect(formatDeadline(1_000 + 5 * 60, 1_000)).toBe("5m left");
+  });
+
+  it("treats the deadline instant itself as passed", () => {
+    expect(formatDeadline(1_000, 1_000)).toBe("deadline passed");
   });
 });

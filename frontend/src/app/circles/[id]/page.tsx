@@ -32,6 +32,7 @@ import { parseCircleId } from "@/lib/circle-id";
 import { ContractErrorCode } from "@/lib/contract-errors";
 import { WalletError } from "@/lib/wallet";
 import { hasContributedCached, missedCountCached, invalidateCircleCache } from "@/lib/rpc-cache";
+import { getLedgerNowSecs } from "@/lib/ledger-time";
 import { paginate } from "@/lib/paginate";
 import { canCancelCircle } from "@/lib/circle-actions";
 
@@ -67,6 +68,7 @@ export default function CircleDetailPage() {
   const [notFound, setNotFound] = useState(circleId === null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState<"join" | "contribute" | "disburse" | "leave" | "cancel" | null>(null);
+  const [ledgerNowSecs, setLedgerNowSecs] = useState<number | null>(null);
 
   useEffect(() => {
     document.title = circleId !== null && !notFound ? `Circle #${circleId} · Ajo` : "Circle not found · Ajo";
@@ -75,8 +77,9 @@ export default function CircleDetailPage() {
   const refresh = useCallback(async () => {
     if (circleId === null) return;
     try {
-      const loaded = await getCircle(circleId);
+      const [loaded, nowSecs] = await Promise.all([getCircle(circleId), getLedgerNowSecs()]);
       setCircle(loaded);
+      setLedgerNowSecs(nowSecs);
       rememberCircleId(circleId);
 
       // Batch RPC calls with memoization to reduce round trips (#119)
@@ -246,6 +249,7 @@ export default function CircleDetailPage() {
               onDisburse={handleDisburse}
               onLeave={handleLeave}
               onCancel={handleCancel}
+              nowSecs={ledgerNowSecs}
             />
           )}
         </div>
@@ -265,6 +269,7 @@ function CircleDetail({
   onDisburse,
   onLeave,
   onCancel,
+  nowSecs,
 }: {
   circle: Circle;
   members: MemberRow[];
@@ -275,6 +280,7 @@ function CircleDetail({
   onDisburse: () => void;
   onLeave: () => void;
   onCancel: () => void;
+  nowSecs: number | null;
 }) {
   const isMember = address ? circle.members.includes(address) : false;
   const isCreator = address === circle.creator;
@@ -328,7 +334,7 @@ function CircleDetail({
           </div>
           <div>
             <p className="text-xs text-muted">Deadline</p>
-            <p className="mt-1 font-medium">{deadline ? formatDeadline(deadline) : "—"}</p>
+            <p className="mt-1 font-medium">{deadline ? formatDeadline(deadline, nowSecs ?? undefined) : "—"}</p>
           </div>
         </div>
 

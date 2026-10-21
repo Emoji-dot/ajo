@@ -83,9 +83,11 @@ export function formatCycleLength(seconds: bigint): string {
   return `every ${s}s`;
 }
 
-export function formatDeadline(deadlineSecs: number): string {
-  const now = Date.now() / 1000;
-  const diff = deadlineSecs - now;
+export function formatDeadline(
+  deadlineSecs: number,
+  nowSecs: number = Date.now() / 1000,
+): string {
+  const diff = deadlineSecs - nowSecs;
   if (diff <= 0) return "deadline passed";
 
   const days = Math.floor(diff / 86_400);

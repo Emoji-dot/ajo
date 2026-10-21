@@ -10,7 +10,7 @@ with anything new). Budget for that before redeploying against real usage.
 
 - [`stellar` CLI](https://developers.stellar.org/docs/tools/developer-tools) installed
 - A funded Stellar account to deploy from (testnet: fund via
-  [the Laboratory](https://laboratory.stellar.org/#account-creator?network=test)
+  [the Stellar Lab](https://lab.stellar.org/account/fund?network=testnet)
   or `stellar keys generate --fund`)
 
 ## Build and test first
